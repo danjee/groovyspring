@@ -5,5 +5,7 @@ package ro.oss.spring;
  */
 public interface GroovyBean {
 
+    String getBeanName();
+
     String bePolite(String name);
 }

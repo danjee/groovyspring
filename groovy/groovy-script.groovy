@@ -8,6 +8,11 @@ class GroovyScript implements GroovyBean{
     private JavaBean javaBean;
 
     @Override
+    String getBeanName() {
+        return "groovy-bean"
+    }
+
+    @Override
     String bePolite(String name) {
         return "from groovy: " + javaBean.sayHello(name);
     }

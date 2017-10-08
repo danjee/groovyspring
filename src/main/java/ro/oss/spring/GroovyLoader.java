@@ -8,6 +8,8 @@ import org.springframework.beans.factory.support.GenericBeanDefinition;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
+
 import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_SINGLETON;
 
 /**
@@ -20,13 +22,13 @@ public class GroovyLoader implements InitializingBean {
     private ApplicationContext context;
 
     public void afterPropertiesSet() throws Exception {
-        GroovyScriptEngine groovyScriptEngine = new GroovyScriptEngine("/home/daniel/workspace_angular/groovyspring/groovy/");
+        GroovyScriptEngine groovyScriptEngine = new GroovyScriptEngine(new File("groovy").getAbsolutePath());
         Class<GroovyBean> clazz = groovyScriptEngine.loadScriptByName("groovy-script.groovy");
         GroovyBean groovyBean = clazz.newInstance();
         BeanDefinitionRegistry beanDefinitionRegistry = (BeanDefinitionRegistry) context.getAutowireCapableBeanFactory();
         GenericBeanDefinition genericBeanDefinition = new GenericBeanDefinition();
         genericBeanDefinition.setBeanClass(clazz);
         genericBeanDefinition.setScope(SCOPE_SINGLETON);
-        beanDefinitionRegistry.registerBeanDefinition("groovy-script.groovy", genericBeanDefinition);
+        beanDefinitionRegistry.registerBeanDefinition(groovyBean.getBeanName(), genericBeanDefinition);
     }
 }
